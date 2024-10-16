@@ -1,18 +1,46 @@
 package com.example.demomidtermtest;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.Properties;
 
 public class DBUtility {
-    private static String user="student";
-    private static String password="student";
-    private static String connectionURL="jdbc:mysql://localhost:3306/javatest";
+    private static String user;
+    private static String password;
+    private static String connectURL="jdbc:mysql://sql5.freesqldatabase.com:3306/sql5736297";;
 
     /*
     *To Do: Update this method to get all or filtered Employees from the database
     * */
-    public static ArrayList<Employee> getEmployees(String... sql) throws SQLException {
+    public static ArrayList<Employee> getEmployees(String... sqls) throws SQLException {
         ArrayList<Employee> employees = new ArrayList<>();
+        //query from the database
+        String sql= "SELECT * FROM sql5736297.employee;";
+        if (sqls.length>0) sql=sqls[0];
+        try (
+                Connection connection =DriverManager.getConnection(connectURL,user,password);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next())
+            {
+                int employeeID = resultSet.getInt("employeeId");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String phoneNumber = resultSet.getString("phoneNumber");
+                Date hireDate = resultSet.getDate("hireDate");
+                String jobCode= resultSet.getString("jobCode");
+                int salary = resultSet.getInt("salary");
+                Employee employee = new Employee(employeeID,firstName,lastName,phoneNumber,hireDate,jobCode,salary);
+                employees.add(employee);
+            }
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
 
         return employees;
     }
@@ -32,6 +60,19 @@ public class DBUtility {
     public static ArrayList<Employee> filterEmployees(boolean isSenior, boolean isIT, String areaCode ) throws SQLException {
 
         return getEmployees("sql");
+    }
+
+    private static void getCredentials() {
+        try {
+            String configFilePath = "src/main/resources/config.properties"; // Path to your properties file
+            FileInputStream propsInput = new FileInputStream(configFilePath);
+            Properties prop = new Properties();
+            prop.load(propsInput);
+            user = prop.getProperty("DB_USER");
+            password = prop.getProperty("DB_PASSWORD");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

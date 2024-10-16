@@ -12,6 +12,16 @@ public class Employee {
     private String jobCode;
     private int salary;
 
+    public Employee(int employeeId, String firstName, String lastName, String phoneNumber, Date hireDate, String jobCode, int Salary){
+        setEmployeeId(employeeId);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPhoneNumber(phoneNumber);
+        setHireDate(hireDate);
+        setJobCode(jobCode);
+        setSalary(salary);
+    }
+
     public int getEmployeeId() {
         return employeeId;
     }
@@ -109,4 +119,6 @@ public class Employee {
         this.salary = salary;
     }
     //extra
+
+
 }
