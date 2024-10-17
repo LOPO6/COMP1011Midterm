@@ -50,11 +50,12 @@ public class DBUtility {
     /*
      *To Do: Update this method to get the area codes for the combo Box list
      * */
-    public static ArrayList<String> getAreaCodes()
-    {
-        String sql2 = "SELECT SUBSTRING(phoneNumber, 1, 3) AS area_code FROM employee WHERE phoneNumber LIKE '___.___.____'";
+    public static ArrayList<String> getAreaCodes() {
+        String sql2 = "SELECT DISTINCT SUBSTRING(phoneNumber, 1, 3) AS area_code FROM employee WHERE phoneNumber LIKE '___.___.____'";
         ArrayList<String> areaCodes = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(connectURL,user,password);
+        areaCodes.add("ALL"); // Add an option for "All"
+
+        try (Connection conn = DriverManager.getConnection(connectURL, user, password);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql2)) {
             while (rs.next()) {
@@ -63,23 +64,23 @@ public class DBUtility {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return  areaCodes;
+        return areaCodes;
     }
 
 
     /*
      *To Do: Update this method to get the area codes for the combo Box list
      * */
-    public static ArrayList<Employee> filterEmployees(boolean isSenior, boolean isIT, String areaCode ) throws SQLException {
+    public static ArrayList<Employee> filterEmployees(boolean isSenior, boolean isIT, String areaCode) throws SQLException {
         String sql2 = "SELECT * FROM employee WHERE 1=1 "; // Base query
         if (isSenior) {
-            sql2 +=  "AND DATEDIFF(CURDATE(), hireDate) >= 3650"; // Filter by Senior
+            sql2 += " AND DATEDIFF(CURDATE(), hireDate) >= 3650"; // Filter by Senior
         }
         if (isIT) {
             sql2 += " AND jobCode LIKE '%IT%'"; // Filter by IT
         }
-        if (areaCode != null && !areaCode.isEmpty()) {
-            sql2 += " AND substring(phoneNumber, 1, 3)="+ areaCode ; // Filter by area code
+        if (areaCode != null && !areaCode.isEmpty() && !areaCode.equals("ALL")) {
+            sql2 += " AND SUBSTRING(phoneNumber, 1, 3)='" + areaCode + "'"; // Filter by area code
         }
         return getEmployees(sql2);
     }

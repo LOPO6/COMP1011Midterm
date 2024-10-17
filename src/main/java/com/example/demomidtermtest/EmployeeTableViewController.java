@@ -63,6 +63,7 @@ public class EmployeeTableViewController implements Initializable {
         colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         colJobCode.setCellValueFactory(new PropertyValueFactory<>("jobCode"));
 
+
         DBUtility.getCredentials();
         ArrayList<Employee> employees = null;
         try {
@@ -71,6 +72,7 @@ public class EmployeeTableViewController implements Initializable {
             throw new RuntimeException(e);
         }
         tableEmployees.getItems().addAll(employees);
+        lableTotal.setText("49");
 
 
         try {
@@ -90,6 +92,15 @@ public class EmployeeTableViewController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        combAreaCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                updateTableView(null); // Call updateTableView with a null ActionEvent
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+
 
     }
 
@@ -108,8 +119,11 @@ public class EmployeeTableViewController implements Initializable {
         // Update the ListView with the filteredEmployees
         tableEmployees.getItems().clear(); // Clear existing items
         tableEmployees.getItems().addAll(filteredEmployees);
-
         lableTotal.setText(" "+filteredEmployees.size());
+        // In updateTableView method
+        if (areaCode.equals("ALL")) {
+            areaCode = ""; // Reset areaCode to empty string to get all employees
+        }
 
 
     }

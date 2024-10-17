@@ -68,12 +68,11 @@ public class Employee {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-
-
+        if (phoneNumber.matches("^\\d{3}\\.\\d{3}\\.\\d{4}$")) {
             this.phoneNumber = phoneNumber;
-
-
-
+        } else {
+            throw new IllegalArgumentException("Phone number must be in the format XXX.XXX.XXXX");
+        }
     }
 
     public Date getHireDate() {
