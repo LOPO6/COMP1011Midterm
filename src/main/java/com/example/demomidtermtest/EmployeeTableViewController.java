@@ -1,5 +1,6 @@
 package com.example.demomidtermtest;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -78,8 +79,14 @@ public class EmployeeTableViewController implements Initializable {
     * Update this method to update the Tableview control
     * */
     @FXML
-    public void updateTableView () throws SQLException
+    public void updateTableView (ActionEvent event) throws SQLException
     {
+        boolean isSenior = checkSenior.isSelected();
+        boolean isIT = checkIT.isSelected();
+        ArrayList<Employee> filteredEmployees = DBUtility.filterEmployees(isSenior, isIT, areaCode);
+        // Update the ListView with the filteredEmployees
+        tableEmployees.getItems().clear(); // Clear existing items
+        tableEmployees.getItems().addAll(filteredEmployees);
 
     }
 }

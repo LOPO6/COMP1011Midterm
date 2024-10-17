@@ -50,7 +50,17 @@ public class DBUtility {
      * */
     public static ArrayList<String> getAreaCodes()
     {
+        String sql2 = "SELECT SUBSTRING(phoneNumber, 1, 3) AS area_code FROM employee WHERE phoneNumber LIKE '___.___.____'";
         ArrayList<String> areaCodes = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(connectURL,user,password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql2)) {
+            while (rs.next()) {
+                areaCodes.add(rs.getString("area_code"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return  areaCodes;
     }
 
@@ -58,7 +68,16 @@ public class DBUtility {
      *To Do: Update this method to get the area codes for the combo Box list
      * */
     public static ArrayList<Employee> filterEmployees(boolean isSenior, boolean isIT, String areaCode ) throws SQLException {
-
+        String sql = "SELECT * FROM employee WHERE 1=1 "; // Base query
+        if (isSenior) {
+            sql += " AND jobCode LIKE '%Senior%'"; // Filter by Senior
+        }
+        if (isIT) {
+            sql += " AND jobCode LIKE '%IT%'"; // Filter by IT
+        }
+        if (areaCode != null && !areaCode.isEmpty()) {
+            sql += " AND phoneNumber LIKE '" + areaCode + "-%'"; // Filter by area code
+        }
         return getEmployees("sql");
     }
 
