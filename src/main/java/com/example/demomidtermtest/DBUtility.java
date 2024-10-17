@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class DBUtility {
@@ -64,6 +66,7 @@ public class DBUtility {
         return  areaCodes;
     }
 
+
     /*
      *To Do: Update this method to get the area codes for the combo Box list
      * */
@@ -76,10 +79,11 @@ public class DBUtility {
             sql2 += " AND jobCode LIKE '%IT%'"; // Filter by IT
         }
         if (areaCode != null && !areaCode.isEmpty()) {
-            sql2 += " AND phoneNumber LIKE '" + areaCode + "-%'"; // Filter by area code
+            sql2 += " AND substring(phoneNumber, 1, 3)="+ areaCode ; // Filter by area code
         }
         return getEmployees(sql2);
     }
+
 
 
     static void getCredentials() {

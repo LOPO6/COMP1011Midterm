@@ -73,8 +73,26 @@ public class EmployeeTableViewController implements Initializable {
         tableEmployees.getItems().addAll(employees);
 
 
+        try {
+            ArrayList<String> areaCodes = DBUtility.getAreaCodes();
+            combAreaCode.getItems().addAll(areaCodes);
+            if (!areaCodes.isEmpty()) {
+                combAreaCode.setValue(areaCodes.get(0)); // Select the first area code by default
+            }
+            // Add a listener to the ComboBox to update the table when the selection changes
+            combAreaCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    updateTableView(null); // Call updateTableView with a null ActionEvent
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
+
 
 
     /*
