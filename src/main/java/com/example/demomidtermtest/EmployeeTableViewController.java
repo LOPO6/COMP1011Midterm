@@ -55,6 +55,21 @@ public class EmployeeTableViewController implements Initializable {
     * */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        colEmployeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+        colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        colHireDate.setCellValueFactory(new PropertyValueFactory<>("hireDate"));
+        colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        colJobCode.setCellValueFactory(new PropertyValueFactory<>("jobCode"));
+
+        DBUtility.getCredentials();
+        ArrayList<Employee> employees = null;
+        try {
+            employees = DBUtility.getEmployees();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        tableEmployees.getItems().addAll(employees);
 
     }
 

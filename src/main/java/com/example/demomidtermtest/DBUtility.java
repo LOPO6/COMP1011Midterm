@@ -32,8 +32,8 @@ public class DBUtility {
                 String phoneNumber = resultSet.getString("phoneNumber");
                 Date hireDate = resultSet.getDate("hireDate");
                 String jobCode= resultSet.getString("jobCode");
-                int salary = resultSet.getInt("salary");
-                Employee employee = new Employee(employeeID,firstName,lastName,phoneNumber,hireDate,jobCode,salary);
+
+                Employee employee = new Employee(employeeID,firstName,lastName,phoneNumber,hireDate,jobCode);
                 employees.add(employee);
             }
 
@@ -62,7 +62,7 @@ public class DBUtility {
         return getEmployees("sql");
     }
 
-    private static void getCredentials() {
+    static void getCredentials() {
         try {
             String configFilePath = "src/main/resources/config.properties"; // Path to your properties file
             FileInputStream propsInput = new FileInputStream(configFilePath);

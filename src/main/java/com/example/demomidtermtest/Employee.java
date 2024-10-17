@@ -12,14 +12,13 @@ public class Employee {
     private String jobCode;
     private int salary;
 
-    public Employee(int employeeId, String firstName, String lastName, String phoneNumber, Date hireDate, String jobCode, int Salary){
+    public Employee(int employeeId, String firstName, String lastName, String phoneNumber, Date hireDate, String jobCode){
         setEmployeeId(employeeId);
         setFirstName(firstName);
         setLastName(lastName);
         setPhoneNumber(phoneNumber);
         setHireDate(hireDate);
         setJobCode(jobCode);
-        setSalary(salary);
     }
 
     public int getEmployeeId() {
@@ -70,13 +69,13 @@ public class Employee {
 
     public void setPhoneNumber(String phoneNumber) {
 
-        if(phoneNumber.contains("^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$") ) {
-            this.phoneNumber = phoneNumber;
-        }
-        else {
 
-            throw new IllegalArgumentException("This must be in the north american dialing format");
-        }
+            this.phoneNumber = phoneNumber;
+
+
+
+
+
 
     }
 
