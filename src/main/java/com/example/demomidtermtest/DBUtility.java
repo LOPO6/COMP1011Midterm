@@ -68,18 +68,19 @@ public class DBUtility {
      *To Do: Update this method to get the area codes for the combo Box list
      * */
     public static ArrayList<Employee> filterEmployees(boolean isSenior, boolean isIT, String areaCode ) throws SQLException {
-        String sql = "SELECT * FROM employee WHERE 1=1 "; // Base query
+        String sql2 = "SELECT * FROM employee WHERE 1=1 "; // Base query
         if (isSenior) {
-            sql += " AND jobCode LIKE '%Senior%'"; // Filter by Senior
+            sql2 +=  "AND DATEDIFF(CURDATE(), hireDate) >= 3650"; // Filter by Senior
         }
         if (isIT) {
-            sql += " AND jobCode LIKE '%IT%'"; // Filter by IT
+            sql2 += " AND jobCode LIKE '%IT%'"; // Filter by IT
         }
         if (areaCode != null && !areaCode.isEmpty()) {
-            sql += " AND phoneNumber LIKE '" + areaCode + "-%'"; // Filter by area code
+            sql2 += " AND phoneNumber LIKE '" + areaCode + "-%'"; // Filter by area code
         }
-        return getEmployees("sql");
+        return getEmployees(sql2);
     }
+
 
     static void getCredentials() {
         try {

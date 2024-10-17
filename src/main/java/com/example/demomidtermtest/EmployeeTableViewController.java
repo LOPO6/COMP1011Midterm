@@ -72,6 +72,8 @@ public class EmployeeTableViewController implements Initializable {
         }
         tableEmployees.getItems().addAll(employees);
 
+
+
     }
 
 
@@ -83,10 +85,14 @@ public class EmployeeTableViewController implements Initializable {
     {
         boolean isSenior = checkSenior.isSelected();
         boolean isIT = checkIT.isSelected();
+        String areaCode = combAreaCode.getSelectionModel().getSelectedItem();
         ArrayList<Employee> filteredEmployees = DBUtility.filterEmployees(isSenior, isIT, areaCode);
         // Update the ListView with the filteredEmployees
         tableEmployees.getItems().clear(); // Clear existing items
         tableEmployees.getItems().addAll(filteredEmployees);
+
+        lableTotal.setText(" "+filteredEmployees.size());
+
 
     }
 }
