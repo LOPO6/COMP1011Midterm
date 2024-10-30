@@ -26,13 +26,10 @@ public class Employee {
     }
 
     public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId; //this is done automatically here, and an error message will be thrown otherwise another potential way to do this would be like this
-            /*
-             try {
-            this.employeeId = Integer.parseInt(employeeId); // Attempt to parse as an int
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("The employeeID must be an integer.");
-        }*/
+        if (employeeId < 0) {
+            throw new IllegalArgumentException("The employeeId must be a non-negative integer.");
+        }
+        this.employeeId = employeeId; // Assign if valid
     }
 
     public String getFirstName() {
