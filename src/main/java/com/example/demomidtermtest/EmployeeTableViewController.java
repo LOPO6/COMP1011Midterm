@@ -72,7 +72,7 @@ public class EmployeeTableViewController implements Initializable {
             throw new RuntimeException(e);
         }
         tableEmployees.getItems().addAll(employees);
-        lableTotal.setText("49");
+        lableTotal.setText("50");
 
 
         try {
